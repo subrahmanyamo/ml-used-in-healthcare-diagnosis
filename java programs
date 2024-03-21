@@ -73,3 +73,439 @@ public class SumOfDigits {
         System.out.println("Sum of digits: " + sum);
     }
 }
+
+5.Write a code to get 2 integers as input and find the HCF of the 2 integer without using recursion or Euclidean algorithm.
+import java.util.Scanner;
+
+public class HCF {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input
+        System.out.println("Enter two integers separated by space:");
+        int num1 = scanner.nextInt();
+        int num2 = scanner.nextInt();
+
+        // Find HCF
+        int hcf = findHCF(num1, num2);
+
+        // Output
+        System.out.println("HCF of " + num1 + " and " + num2 + " is: " + hcf);
+    }
+
+    public static int findHCF(int num1, int num2) {
+        int smallerNumber = Math.min(num1, num2);
+        int hcf = 1;
+
+        for (int i = 2; i <= smallerNumber; i++) {
+            if (num1 % i == 0 && num2 % i == 0) {
+                hcf = i;
+            }
+        }
+
+        return hcf;
+    }
+}
+
+6. You are given with an array containing only 1s and 0s.You can select two index ‘a’ and ‘b’ such that a<b in which you will change ‘1 to 0’ and ‘0 to 1’,in order to get maximum no of 1s in result.
+
+import java.util.*;
+
+public class MaximizeOnes {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();
+        int[] array = new int[input.length()];
+        
+        // Convert input string to integer array
+        for (int i = 0; i < input.length(); i++) {
+            array[i] = Character.getNumericValue(input.charAt(i));
+        }
+        
+        int maxOnes = 0;
+        int maxOnesIndex = -1;
+        
+        // Find the index of the maximum consecutive sequence of 1s
+        for (int i = 0; i < array.length; i++) {
+            int count = 0;
+            while (i < array.length && array[i] == 1) {
+                count++;
+                i++;
+            }
+            if (count > maxOnes) {
+                maxOnes = count;
+                maxOnesIndex = i - count;
+            }
+        }
+        
+        int a = -1, b = -1;
+        
+        // If there is a sequence of 1s, toggle the first 0 before it and the last 0 after it
+        if (maxOnesIndex != -1) {
+            for (int i = maxOnesIndex - 1; i >= 0; i--) {
+                if (array[i] == 0) {
+                    a = i + 1;
+                    break;
+                }
+            }
+            for (int i = maxOnesIndex + maxOnes; i < array.length; i++) {
+                if (array[i] == 0) {
+                    b = i + 1;
+                    break;
+                }
+            }
+        }
+        
+        System.out.println(a + " " + b);
+    }
+}
+
+
+7. You are given a number ‘n’,count the number of 1’s in its binary string.of that number
+
+import java.util.Scanner;
+
+public class Binary {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Input
+        System.out.println("Enter the number:");
+        int n = scanner.nextInt();
+
+        // Count the number of 1's in the binary string
+        int count = countOnes(n);
+
+        // Output
+        System.out.println("Number of 1's in the binary string: " + count);
+
+        // Close the scanner
+        scanner.close();
+    }
+
+    public static int countOnes(int n) {
+        int count = 0;
+
+        // Convert the number to binary string and count the number of '1's
+        String binaryString = Integer.toBinaryString(n);
+        for (int i = 0; i < binaryString.length(); i++) {
+            if (binaryString.charAt(i) == '1') {
+                count++;
+            }
+        }
+
+        return count;
+    }
+}
+
+
+8. You are given an integer ‘n’,You have to shift all the even bits with odd bits and odd bits with even bits, and print the number which is formed after manipulation in O(1) time complexity
+public class SwapEvenOddBits {
+    public static void main(String[] args) {
+        int n = 23;
+        System.out.println(swapEvenOddBits(n));
+    }
+
+    public static int swapEvenOddBits(int n) {
+        int evenMask = 0xAAAAAAAA;
+        int oddMask = 0x55555555;
+        int evenBits = (n & evenMask) >>> 1;
+        int oddBits = (n & oddMask) << 1;
+        int result = evenBits | oddBits;
+        return result;
+    }
+}
+
+
+9. You are given a number ‘n’.Your task is to set all the bits to 1 in the position of range [L R] and then print the  new number. Bit count start from 1 and it starts from left
+import java.util.Scanner;
+
+public class SetBitsInRange {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int n = scanner.nextInt();
+        int l = scanner.nextInt();
+        int r = scanner.nextInt();
+        System.out.println(setBitsInRange(n, l, r));
+    }
+
+    public static int setBitsInRange(int n, int l, int r) {
+        int mask = ((1 << (r - l + 1)) - 1) << (l - 1);
+        int result = n | mask;
+        return result;
+    }
+}
+
+10. You are given a number ‘n’ you have to tell whether number is divisible by 8.
+Print 1 if it is divisible and 0 if it is not.
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Task 1: Check if a number is divisible by 8
+        int n = scanner.nextInt();
+        System.out.println(isDivisibleBy8(n));
+
+        // Task 2: Generate Floyd's Triangle
+        int R = scanner.nextInt();
+        floydsTriangle(R);
+    }
+
+    // Task 1: Check if a number is divisible by 8
+    public static int isDivisibleBy8(int n) {
+        if ((n & 7) == 0) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
+    // Task 2: Generate Floyd's Triangle
+    public static void floydsTriangle(int rows) {
+        int num = 1;
+        for (int i = 1; i <= rows; i++) {
+            for (int j = 1; j <= i; j++) {
+                System.out.print(num + " ");
+                num++;
+            }
+            System
+1.	Generate a floyd's triangle.
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int R = scanner.nextInt();
+        generateFloydsTriangle(R);
+    }
+
+    public static void generateFloydsTriangle(int rows) {
+        int num = 1;
+        for (int i = 1; i <= rows; i++) {
+            for (int j = 1; j <= i; j++) {
+                System.out.print(num + " ");
+                num++;
+            }
+            System.out.println();
+        }
+    }
+}
+
+
+2.	Generate a hollow half pyramid pattern using numbers.
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int R = scanner.nextInt();
+        hollowHalfPyramid(R);
+    }
+
+    public static void hollowHalfPyramid(int rows) {
+        for (int i = 1; i <= rows; i++) {
+            for (int j = 1; j <= i; j++) {
+                if (j == 1 || j == i || i == rows) {
+                    System.out.print(j);
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
+    }
+}
+
+
+ 3.Generate a hollow inverted half pyramid pattern using numbers.
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int R = scanner.nextInt();
+        hollowInvertedHalfPyramid(R);
+    }
+
+    public static void hollowInvertedHalfPyramid(int rows) {
+        for (int i = rows; i > 0; i--) {
+            for (int j = 1; j <= i; j++) {
+                if (j == 1 || j == i || i == rows) {
+                    System.out.print(j);
+                } else {
+                    System.out.print(" ");
+                }
+            }
+            System.out.println();
+        }
+    }
+}
+
+
+ 4 .Generate the following inverted character with star pattern.
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int R = scanner.nextInt();
+        invertedCharacterStarPattern(R);
+    }
+
+    public static void invertedCharacterStarPattern(int rows) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < rows; j++) {
+                if (j == i || j == rows - i - 1 || i == rows - 1) {
+                    System.out.print("*");
+                } else {
+                    System.out.print("b");
+                }
+            }
+            System.out.println();
+        }
+    }
+}
+
+5. In the IPL season’s valedictory function the organizers have organized for a dance program. 
+The dance has to be performed by men along with the points of the diagonals of the square of side ‘n’ and the females along with points of the borders. 
+The remaining positions are filled by children. You have to determine their respective positions by writing a program.
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt();
+        danceProgramMatrix(N);
+    }
+
+    public static void danceProgramMatrix(int n) {
+        char[][] matrix = new char[n][n];
+        
+        // Fill the matrix with 'C' characters
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                matrix[i][j] = 'C';
+            }
+        }
+        
+        // Modify the matrix according to the given logic
+        for (int i = 0; i < n; i++) {
+            matrix[i][i] = 'M';
+            matrix[i][n - i - 1] = 'F';
+        }
+        
+        // Print the matrix
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print(matrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+}
+
+
+6. Given 2 numbers N and K, print the number after performing bitwise right shift 'K' times (up to 2 decimal places).
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt();
+        int K = scanner.nextInt();
+        
+        // Perform bitwise right shift 'K' times on number 'N'
+        double result = N >> K;
+        
+        System.out.printf("%.2f", result);
+    }
+}
+
+
+7.	Given 2 numbers N,K print the number after performing bitwise left shift 'K' times.
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt();
+        int K = scanner.nextInt();
+        int result = N << K;
+        System.out.println(result);
+    }
+}
+
+8. Print the position of the first 1 from right to left in binary representation:
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt();
+        int position = 1;
+        while ((N & 1) == 0) {
+            N >>= 1;
+            position++;
+        }
+        System.out.println(position);
+    }
+}
+
+9. Switch (swap) adjacent elements in an array:
+
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt();
+        int[] arr = new int[N];
+        for (int i = 0; i < N; i++) {
+            arr[i] = scanner.nextInt();
+        }
+        for (int i = 0; i < N - 1; i += 2) {
+            int temp = arr[i];
+            arr[i] = arr[i + 1];
+            arr[i + 1] = temp;
+        }
+        for (int i = 0; i < N; i++) {
+            System.out.print(arr[i] + " ");
+        }
+    }
+}
+
+
+10.Find the bitwise XOR of array elements:
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt();
+        int result = 0;
+        for (int i = 0; i < N; i++) {
+            result ^= scanner.nextInt();
+        }
+        System.out.println(result);
+    }
+}
+
+
+11. Find the maximum of elements using bitwise AND:
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int N = scanner.nextInt();
+        int result = Integer.MAX_VALUE;
+        for (int i = 0; i < N; i++) {
+            result &= scanner.nextInt();
+        }
+        System.out.println(result);
+    }
+}
+
